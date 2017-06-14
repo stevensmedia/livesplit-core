@@ -8,8 +8,11 @@ use std::io::{self, Read, BufReader};
 use std::path::Path;
 use std::sync::atomic::{AtomicUsize, ATOMIC_USIZE_INIT, Ordering};
 use base64::{self, STANDARD};
+use image_shrink::shrink;
 
 static LAST_IMAGE_ID: AtomicUsize = ATOMIC_USIZE_INIT;
+
+const MAX_IMAGE_SIZE: u32 = 256;
 
 #[derive(Debug, Clone)]
 pub struct Image {
@@ -70,12 +73,13 @@ impl Image {
     }
 
     pub fn modify(&mut self, data: &[u8]) {
+        let data = shrink(data, MAX_IMAGE_SIZE);
         self.id = LAST_IMAGE_ID.fetch_add(1, Ordering::SeqCst) + 1;
         self.url.clear();
 
         if !data.is_empty() {
             self.url.push_str("data:;base64,");
-            base64::encode_config_buf(data, STANDARD, &mut self.url);
+            base64::encode_config_buf(&data, STANDARD, &mut self.url);
         }
     }
 }

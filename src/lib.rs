@@ -25,6 +25,7 @@ mod attempt;
 mod color;
 mod hotkey_config;
 mod hotkey_system;
+mod image_shrink;
 mod image;
 mod run_metadata;
 mod run;
