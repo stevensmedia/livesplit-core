@@ -16,14 +16,19 @@ pub unsafe extern "C" fn CurrentComparisonComponent_drop(this: OwnedCurrentCompa
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn CurrentComparisonComponent_state_as_json(this: *mut CurrentComparisonComponent, timer: *const Timer)-> Json{
-    output_vec(|o| { acc_mut(this).state(acc(timer)).write_json(o).unwrap(); })
+pub unsafe extern "C" fn CurrentComparisonComponent_state_as_json(
+    this: *mut CurrentComparisonComponent,
+    timer: *const Timer,
+) -> Json {
+    output_vec(|o| {
+        acc_mut(this).state(acc(timer)).write_json(o).unwrap();
+    })
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn CurrentComparisonComponent_state
-    (this: *mut CurrentComparisonComponent,
-     timer: *const Timer)
-     -> OwnedCurrentComparisonComponentState {
+pub unsafe extern "C" fn CurrentComparisonComponent_state(
+    this: *mut CurrentComparisonComponent,
+    timer: *const Timer,
+) -> OwnedCurrentComparisonComponentState {
     alloc(acc_mut(this).state(acc(timer)))
 }

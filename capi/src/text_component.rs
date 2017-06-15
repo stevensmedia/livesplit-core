@@ -36,7 +36,8 @@ pub unsafe extern "C" fn TextComponent_set_right(this: *mut TextComponent, text:
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn TextComponent_state(this: *const TextComponent)
-                                             -> OwnedTextComponentState {
+pub unsafe extern "C" fn TextComponent_state(
+    this: *const TextComponent,
+) -> OwnedTextComponentState {
     alloc(acc(this).state())
 }

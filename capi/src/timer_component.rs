@@ -16,15 +16,17 @@ pub unsafe extern "C" fn TimerComponent_drop(this: OwnedTimerComponent) {
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn TimerComponent_state_as_json(this: *const TimerComponent,
-                                                      timer: *const Timer)
-                                                      -> Json {
+pub unsafe extern "C" fn TimerComponent_state_as_json(
+    this: *const TimerComponent,
+    timer: *const Timer,
+) -> Json {
     output_vec(|o| { acc(this).state(acc(timer)).write_json(o).unwrap(); })
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn TimerComponent_state(this: *const TimerComponent,
-                                              timer: *const Timer)
-                                              -> OwnedTimerComponentState {
+pub unsafe extern "C" fn TimerComponent_state(
+    this: *const TimerComponent,
+    timer: *const Timer,
+) -> OwnedTimerComponentState {
     alloc(acc(this).state(acc(timer)))
 }

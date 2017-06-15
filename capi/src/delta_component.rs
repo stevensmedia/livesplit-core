@@ -16,15 +16,19 @@ pub unsafe extern "C" fn DeltaComponent_drop(this: OwnedDeltaComponent) {
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn DeltaComponent_state_as_json(this: *mut DeltaComponent,
-                                                      timer: *const Timer)
-                                                      -> Json {
-    output_vec(|o| { acc_mut(this).state(acc(timer)).write_json(o).unwrap(); })
+pub unsafe extern "C" fn DeltaComponent_state_as_json(
+    this: *mut DeltaComponent,
+    timer: *const Timer,
+) -> Json {
+    output_vec(|o| {
+        acc_mut(this).state(acc(timer)).write_json(o).unwrap();
+    })
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn DeltaComponent_state(this: *mut DeltaComponent,
-                                              timer: *const Timer)
-                                              -> OwnedDeltaComponentState {
+pub unsafe extern "C" fn DeltaComponent_state(
+    this: *mut DeltaComponent,
+    timer: *const Timer,
+) -> OwnedDeltaComponentState {
     alloc(acc_mut(this).state(acc(timer)))
 }

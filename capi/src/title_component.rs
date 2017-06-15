@@ -16,15 +16,19 @@ pub unsafe extern "C" fn TitleComponent_drop(this: OwnedTitleComponent) {
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn TitleComponent_state_as_json(this: *mut TitleComponent,
-                                                      timer: *const Timer)
-                                                      -> Json {
-    output_vec(|o| { acc_mut(this).state(acc(timer)).write_json(o).unwrap(); })
+pub unsafe extern "C" fn TitleComponent_state_as_json(
+    this: *mut TitleComponent,
+    timer: *const Timer,
+) -> Json {
+    output_vec(|o| {
+        acc_mut(this).state(acc(timer)).write_json(o).unwrap();
+    })
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn TitleComponent_state(this: *mut TitleComponent,
-                                              timer: *const Timer)
-                                              -> OwnedTitleComponentState {
+pub unsafe extern "C" fn TitleComponent_state(
+    this: *mut TitleComponent,
+    timer: *const Timer,
+) -> OwnedTitleComponentState {
     alloc(acc_mut(this).state(acc(timer)))
 }

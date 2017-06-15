@@ -16,15 +16,17 @@ pub unsafe extern "C" fn SumOfBestComponent_drop(this: OwnedSumOfBestComponent) 
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn SumOfBestComponent_state_as_json(this: *const SumOfBestComponent,
-                                                          timer: *const Timer)
-                                                          -> Json {
+pub unsafe extern "C" fn SumOfBestComponent_state_as_json(
+    this: *const SumOfBestComponent,
+    timer: *const Timer,
+) -> Json {
     output_vec(|o| { acc(this).state(acc(timer)).write_json(o).unwrap(); })
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn SumOfBestComponent_state(this: *const SumOfBestComponent,
-                                                  timer: *const Timer)
-                                                  -> OwnedSumOfBestComponentState {
+pub unsafe extern "C" fn SumOfBestComponent_state(
+    this: *const SumOfBestComponent,
+    timer: *const Timer,
+) -> OwnedSumOfBestComponentState {
     alloc(acc(this).state(acc(timer)))
 }

@@ -16,15 +16,19 @@ pub unsafe extern "C" fn TotalPlaytimeComponent_drop(this: OwnedTotalPlaytimeCom
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn TotalPlaytimeComponent_state_as_json(this: *mut TotalPlaytimeComponent,
-                                                              timer: *const Timer)
-                                                              -> Json {
-    output_vec(|o| { acc_mut(this).state(acc(timer)).write_json(o).unwrap(); })
+pub unsafe extern "C" fn TotalPlaytimeComponent_state_as_json(
+    this: *mut TotalPlaytimeComponent,
+    timer: *const Timer,
+) -> Json {
+    output_vec(|o| {
+        acc_mut(this).state(acc(timer)).write_json(o).unwrap();
+    })
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn TotalPlaytimeComponent_state(this: *mut TotalPlaytimeComponent,
-                                                      timer: *const Timer)
-                                                      -> OwnedTotalPlaytimeComponentState {
+pub unsafe extern "C" fn TotalPlaytimeComponent_state(
+    this: *mut TotalPlaytimeComponent,
+    timer: *const Timer,
+) -> OwnedTotalPlaytimeComponentState {
     alloc(acc_mut(this).state(acc(timer)))
 }

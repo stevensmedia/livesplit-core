@@ -16,15 +16,17 @@ pub unsafe extern "C" fn GraphComponent_drop(this: OwnedGraphComponent) {
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn GraphComponent_state_as_json(this: *const GraphComponent,
-                                                      timer: *const Timer)
-                                                      -> Json {
+pub unsafe extern "C" fn GraphComponent_state_as_json(
+    this: *const GraphComponent,
+    timer: *const Timer,
+) -> Json {
     output_vec(|o| { acc(this).state(acc(timer)).write_json(o).unwrap(); })
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn GraphComponent_state(this: *const GraphComponent,
-                                              timer: *const Timer)
-                                              -> OwnedGraphComponentState {
+pub unsafe extern "C" fn GraphComponent_state(
+    this: *const GraphComponent,
+    timer: *const Timer,
+) -> OwnedGraphComponentState {
     alloc(acc(this).state(acc(timer)))
 }

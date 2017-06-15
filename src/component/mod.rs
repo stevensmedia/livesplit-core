@@ -1,3 +1,4 @@
+pub mod analog_clock;
 pub mod current_comparison;
 pub mod current_pace;
 pub mod delta;

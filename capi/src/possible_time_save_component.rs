@@ -16,14 +16,17 @@ pub unsafe extern "C" fn PossibleTimeSaveComponent_drop(this: OwnedPossibleTimeS
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn PossibleTimeSaveComponent_state_as_json(this: *const PossibleTimeSaveComponent, timer: *const Timer)
--> Json{
+pub unsafe extern "C" fn PossibleTimeSaveComponent_state_as_json(
+    this: *const PossibleTimeSaveComponent,
+    timer: *const Timer,
+) -> Json {
     output_vec(|o| { acc(this).state(acc(timer)).write_json(o).unwrap(); })
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn PossibleTimeSaveComponent_state(this: *const PossibleTimeSaveComponent,
-                                                         timer: *const Timer)
-                                                         -> OwnedPossibleTimeSaveComponentState {
+pub unsafe extern "C" fn PossibleTimeSaveComponent_state(
+    this: *const PossibleTimeSaveComponent,
+    timer: *const Timer,
+) -> OwnedPossibleTimeSaveComponentState {
     alloc(acc(this).state(acc(timer)))
 }

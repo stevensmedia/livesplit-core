@@ -16,14 +16,17 @@ pub unsafe extern "C" fn PreviousSegmentComponent_drop(this: OwnedPreviousSegmen
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn PreviousSegmentComponent_state_as_json(this: *const PreviousSegmentComponent,
-timer: *const Timer) -> Json{
+pub unsafe extern "C" fn PreviousSegmentComponent_state_as_json(
+    this: *const PreviousSegmentComponent,
+    timer: *const Timer,
+) -> Json {
     output_vec(|o| { acc(this).state(acc(timer)).write_json(o).unwrap(); })
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn PreviousSegmentComponent_state(this: *const PreviousSegmentComponent,
-                                                        timer: *const Timer)
-                                                        -> OwnedPreviousSegmentComponentState {
+pub unsafe extern "C" fn PreviousSegmentComponent_state(
+    this: *const PreviousSegmentComponent,
+    timer: *const Timer,
+) -> OwnedPreviousSegmentComponentState {
     alloc(acc(this).state(acc(timer)))
 }

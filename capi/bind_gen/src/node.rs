@@ -294,7 +294,7 @@ export interface GraphComponentStateJson {
 
 export type TextComponentStateJson =
 	{ Center: String } |
-	{ Split: String[2] };
+	{ Split: String[] };
 
 export interface TotalPlaytimeComponentStateJson {
     text: string;
@@ -315,6 +315,12 @@ export interface DeltaComponentStateJson {
 export interface CurrentComparisonComponentStateJson {
     text: string;
     comparison: string;
+}
+
+export interface AnalogClockComponentStateJson {
+    seconds: number[];
+    minutes: number[];
+    hours: number[];
 }
 
 export interface RunEditorStateJson {
