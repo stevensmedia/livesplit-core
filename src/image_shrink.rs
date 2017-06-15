@@ -25,13 +25,14 @@ fn shrink_inner(data: &[u8], max_dim: u32) -> Result<Cow<[u8]>, ImageError> {
     };
 
     if width > max_dim || height > max_dim {
+        println!("Resizing from {}x{}.", width, height);
         let image = load_from_memory_with_format(data, format)?;
-        let image = image.resize(max_dim, max_dim, FilterType::Gaussian);
+        let image = image.resize(max_dim, max_dim, FilterType::Nearest);
         let mut data = Vec::new();
         let format = if format == ImageFormat::GIF {
             ImageFormat::GIF
         } else {
-            ImageFormat::JPEG
+            ImageFormat::PNG
         };
         image.save(&mut data, format)?;
         Ok(data.into())

@@ -12,7 +12,7 @@ use image_shrink::shrink;
 
 static LAST_IMAGE_ID: AtomicUsize = ATOMIC_USIZE_INIT;
 
-const MAX_IMAGE_SIZE: u32 = 256;
+const MAX_IMAGE_SIZE: u32 = 128;
 
 #[derive(Debug, Clone)]
 pub struct Image {
