@@ -44,15 +44,6 @@ impl Default for Settings {
     }
 }
 
-impl State {
-    pub fn write_json<W>(&self, writer: W) -> Result<()>
-    where
-        W: Write,
-    {
-        to_writer(writer, self)
-    }
-}
-
 impl Component {
     pub fn new() -> Self {
         Default::default()
@@ -177,6 +168,17 @@ impl Component {
             comparison1,
             comparison2,
         }
+    }
+}
+
+impl State {
+    pub fn update(&mut self, component: &Component, timer: &Timer) {}
+
+    pub fn write_json<W>(&self, writer: W) -> Result<()>
+    where
+        W: Write,
+    {
+        to_writer(writer, self)
     }
 }
 

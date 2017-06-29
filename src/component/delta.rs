@@ -1,6 +1,7 @@
 use {Timer, Color};
 use serde_json::{to_writer, Result};
 use std::io::Write;
+use std::fmt::Write as FmtWrite;
 use analysis::{state_helper, delta};
 use time_formatter::{Delta, TimeFormatter, Accuracy};
 
@@ -26,20 +27,11 @@ impl Default for Settings {
     }
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Default, Serialize, Deserialize)]
 pub struct State {
     pub text: String,
     pub time: String,
     pub color: Color,
-}
-
-impl State {
-    pub fn write_json<W>(&self, writer: W) -> Result<()>
-    where
-        W: Write,
-    {
-        to_writer(writer, self)
-    }
 }
 
 impl Component {
@@ -63,7 +55,16 @@ impl Component {
     }
 
     pub fn state(&self, timer: &Timer) -> State {
-        let comparison = self.settings
+        let mut state = State::default();
+        state.update(self, timer);
+        state
+    }
+}
+
+impl State {
+    pub fn update(&mut self, component: &Component, timer: &Timer) {
+        let comparison = component
+            .settings
             .comparison_override
             .as_ref()
             .and_then(|c| timer.run().comparisons().find(|&rc| c == rc))
@@ -89,12 +90,26 @@ impl Component {
             Color::Default
         };
 
-        State {
-            text: String::from(comparison),
-            time: Delta::custom(self.settings.drop_decimals, self.settings.accuracy)
-                .format(delta)
-                .to_string(),
-            color,
-        }
+        self.text.clear();
+        self.text.push_str(comparison);
+
+        self.time.clear();
+        write!(
+            self.time,
+            "{}",
+            Delta::custom(
+                component.settings.drop_decimals,
+                component.settings.accuracy,
+            ).format(delta)
+        ).unwrap();
+
+        self.color = color;
+    }
+
+    pub fn write_json<W>(&self, writer: W) -> Result<()>
+    where
+        W: Write,
+    {
+        to_writer(writer, self)
     }
 }

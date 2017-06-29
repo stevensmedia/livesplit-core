@@ -11,6 +11,12 @@ pub enum Color {
     PersonalBest,
 }
 
+impl Default for Color {
+    fn default() -> Self {
+        Color::Default
+    }
+}
+
 impl Color {
     pub fn or(self, color: Color) -> Color {
         if self == Color::Default { color } else { self }

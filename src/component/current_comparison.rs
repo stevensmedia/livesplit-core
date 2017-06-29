@@ -5,19 +5,10 @@ use std::io::Write;
 #[derive(Default)]
 pub struct Component;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Default, Serialize, Deserialize)]
 pub struct State {
     pub text: String,
     pub comparison: String,
-}
-
-impl State {
-    pub fn write_json<W>(&self, writer: W) -> Result<()>
-    where
-        W: Write,
-    {
-        to_writer(writer, self)
-    }
 }
 
 impl Component {
@@ -26,9 +17,25 @@ impl Component {
     }
 
     pub fn state(&self, timer: &Timer) -> State {
-        State {
-            text: String::from("Comparing Against"),
-            comparison: timer.current_comparison().to_string(),
-        }
+        let mut state = State::default();
+        state.update(self, timer);
+        state
+    }
+}
+
+impl State {
+    pub fn update(&mut self, _component: &Component, timer: &Timer) {
+        self.text.clear();
+        self.text.push_str("Comparing Against");
+
+        self.comparison.clear();
+        self.comparison.push_str(timer.current_comparison());
+    }
+
+    pub fn write_json<W>(&self, writer: W) -> Result<()>
+    where
+        W: Write,
+    {
+        to_writer(writer, self)
     }
 }
