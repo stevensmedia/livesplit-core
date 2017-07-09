@@ -1,4 +1,4 @@
-use std::ops::{AddAssign, SubAssign};
+use std::ops::{AddAssign, SubAssign, Div};
 use std::str::FromStr;
 use std::time::Duration as StdDuration;
 use std::num::ParseFloatError;
@@ -122,5 +122,12 @@ impl AddAssign for TimeSpan {
 impl SubAssign for TimeSpan {
     fn sub_assign(&mut self, rhs: TimeSpan) {
         self.0 = self.0 - rhs.0;
+    }
+}
+
+impl Div<f64> for TimeSpan {
+    type Output = Self;
+    fn div(self, rhs: f64) -> Self {
+        TimeSpan::from_milliseconds(self.total_milliseconds() / rhs)
     }
 }

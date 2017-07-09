@@ -14,11 +14,16 @@ extern crate byteorder;
 extern crate image as imagelib;
 #[macro_use]
 extern crate derive_more;
+extern crate unicase;
+extern crate ntp;
+#[macro_use]
+extern crate lazy_static;
+
 pub extern crate parking_lot;
 pub extern crate livesplit_hotkey as hotkey;
-extern crate unicase;
 pub extern crate ordermap;
 
+mod atomic_clock_synchronization;
 mod atomic_date_time;
 mod attempt;
 mod color;

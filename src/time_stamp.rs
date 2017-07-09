@@ -1,13 +1,18 @@
 use std::time::Instant;
 use std::ops::Sub;
 use TimeSpan;
+use atomic_clock_synchronization::drift;
+
+lazy_static! {
+    static ref BEGINNING_INSTANT: Instant = Instant::now();
+}
 
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd)]
-pub struct TimeStamp(Instant, TimeSpan);
+pub struct TimeStamp(TimeSpan);
 
 impl TimeStamp {
     pub fn now() -> Self {
-        TimeStamp(Instant::now(), TimeSpan::zero())
+        TimeStamp(TimeSpan::from(BEGINNING_INSTANT.elapsed()) / drift())
     }
 }
 
@@ -15,7 +20,7 @@ impl Sub for TimeStamp {
     type Output = TimeSpan;
 
     fn sub(self, rhs: TimeStamp) -> TimeSpan {
-        TimeSpan::from(self.0 - rhs.0) + self.1 - rhs.1
+        self.0 - rhs.0
     }
 }
 
@@ -23,6 +28,6 @@ impl Sub<TimeSpan> for TimeStamp {
     type Output = TimeStamp;
 
     fn sub(self, rhs: TimeSpan) -> TimeStamp {
-        TimeStamp(self.0, self.1 - rhs)
+        TimeStamp(self.0 - rhs)
     }
 }
