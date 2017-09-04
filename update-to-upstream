@@ -1,0 +1,8 @@
+#! /bin/sh
+
+git fetch -q
+git merge -q upstream/master
+git push -q
+cargo build --release -p livesplit-core-capi -j 4
+cd capi/bind_gen
+cargo run --release -j 4
